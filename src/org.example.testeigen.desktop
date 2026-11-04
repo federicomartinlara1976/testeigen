@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+
+Name=TestEigen
+GenericName=A Simple Application written with KDE Frameworks
+Icon=testeigen
+
+Exec=testeigen
+StartupWMClass=testeigen
+X-DocPath=testeigen/index.html
