@@ -33,7 +33,6 @@ public:
     ~TestEigenView() override;
 
 public Q_SLOTS:
-    void switchColors();
     void handleSettingsChanged();
 
 private:

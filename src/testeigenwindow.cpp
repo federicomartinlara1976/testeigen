@@ -22,16 +22,14 @@ TestEigenWindow::TestEigenWindow()
     setCentralWidget(m_testeigenView);
 
     KActionCollection* actionCollection = this->actionCollection();
-    m_switchAction = actionCollection->addAction(QStringLiteral("switch_action"));
-    m_switchAction->setText(i18nc("@action", "Switch Colors"));
-    m_switchAction->setIcon(QIcon::fromTheme(QStringLiteral("fill-color")));
-    connect(m_switchAction, &QAction::triggered, m_testeigenView, &TestEigenView::switchColors);
 
     KStandardAction::openNew(this, SLOT(fileNew()), actionCollection);
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection);
     KStandardAction::preferences(this, SLOT(settingsConfigure()), actionCollection);
 
     setupGUI();
+
+    setWindowTitle(QStringLiteral("Eigen 3.4 Playground — Qt/KDE"));
 }
 
 TestEigenWindow::~TestEigenWindow()

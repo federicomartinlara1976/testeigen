@@ -22,26 +22,9 @@ TestEigenView::~TestEigenView()
 {
 }
 
-void TestEigenView::switchColors()
-{
-    // switch the foreground/background colors of the label
-    QColor color = TestEigenSettings::colorBackground();
-    TestEigenSettings::setColorBackground(TestEigenSettings::colorForeground());
-    TestEigenSettings::setColorForeground(color);
-
-    handleSettingsChanged();
-}
-
 void TestEigenView::handleSettingsChanged()
 {
     qCDebug(TESTEIGEN) << "TestEigenView::handleSettingsChanged()";
-    QPalette palette = m_ui.templateLabel->palette();
-    palette.setColor(QPalette::Window, TestEigenSettings::colorBackground());
-    palette.setColor(QPalette::WindowText, TestEigenSettings::colorForeground());
-    m_ui.templateLabel->setPalette(palette);
-
-    // i18n : internationalization
-    m_ui.templateLabel->setText(i18n("This project is %1 days old", TestEigenSettings::ageInDays()));
 }
 
 #include "moc_testeigenview.cpp"
