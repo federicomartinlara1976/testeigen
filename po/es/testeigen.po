@@ -1,0 +1,95 @@
+# Spanish translations for PACKAGE package.
+# Copyright (C) 2026 This file is copyright:
+# This file is distributed under the same license as the PACKAGE package.
+# Federico Martín Lara <federicomartinlara1976@gmail.com>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2026-11-06 14:46+0100\n"
+"PO-Revision-Date: 2026-11-06 14:49+0100\n"
+"Last-Translator: Federico Martín Lara <federicomartinlara1976@gmail.com>\n"
+"Language-Team: Spanish <es@tp.org.es>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#: src/main.cpp:32
+#, kde-format
+msgid "TestEigen"
+msgstr ""
+
+#: src/main.cpp:34
+#, kde-format
+msgid "%{DESCRIPTION}"
+msgstr ""
+
+#: src/main.cpp:36
+#, kde-format
+msgid "Copyright %{CURRENT_YEAR}, %{AUTHOR} <%{EMAIL}>"
+msgstr ""
+
+#: src/main.cpp:38
+#, kde-format
+msgid "%{AUTHOR}"
+msgstr ""
+
+#: src/main.cpp:38
+#, kde-format
+msgid "Author"
+msgstr ""
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: src/testeigenui.rc:12
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_1)
+#: src/testeigenview.ui:45
+#, kde-format
+msgid "1 · Básicos"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_2)
+#: src/testeigenview.ui:62
+#, kde-format
+msgid "2 · Sistemas lineales"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_3)
+#: src/testeigenview.ui:79
+#, kde-format
+msgid "3 · Autovalores"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#: src/testeigenview.ui:96
+#, kde-format
+msgid "4 · SVD / mínimos cuadrados"
+msgstr ""
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_5)
+#: src/testeigenview.ui:113
+#, kde-format
+msgid "5 · QR y Cholesky"
+msgstr ""
+
+#: src/testeigenwindow.cpp:53
+#, kde-format
+msgctxt "@title:tab"
+msgid "General"
+msgstr ""
