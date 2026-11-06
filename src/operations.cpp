@@ -14,6 +14,9 @@ QString Operations::runBasics() {
     A << 1.0, 2.0,
          3.0, 4.0;
     Eigen::Matrix2d B = Eigen::Matrix2d::Identity();
+    out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
+    out += helper.section(QStringLiteral("B"), EigenManager::matrixToString(B));
+
     out += helper.section(QStringLiteral("A + B"), EigenManager::matrixToString(A + B));
 
     // Producto, transpuesta, inversa, determinante

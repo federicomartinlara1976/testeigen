@@ -9,6 +9,8 @@
 
 #include "ui_testeigenview.h"
 
+#include "operations.hpp"
+
 
 /**
  * This class serves as the main window for testeigen.  It handles the
@@ -39,6 +41,8 @@ private:
     // this is the name of the root widget inside our Ui file
     // you can rename it in designer and then change it here
     Ui::TestEigenView m_ui;
+
+    Operations operations;
 };
 
 #endif // TESTEIGENVIEW_H
