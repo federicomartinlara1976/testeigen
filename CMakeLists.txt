@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-
+set(CMAKE_BUILD_TYPE Debug)
 project(testeigen VERSION 1.0.0)
 
 set(QT_MIN_VERSION "6.5.0")

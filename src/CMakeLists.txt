@@ -20,6 +20,8 @@ ki18n_wrap_ui(testeigen
     settings.ui
 )
 
+target_compile_options(testeigen PRIVATE -fsanitize=address -fno-omit-frame-pointer)
+
 target_link_libraries(testeigen
     KF6::CoreAddons
     KF6::I18n
