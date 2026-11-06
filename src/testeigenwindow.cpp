@@ -23,7 +23,6 @@ TestEigenWindow::TestEigenWindow()
 
     KActionCollection* actionCollection = this->actionCollection();
 
-    KStandardAction::openNew(this, SLOT(fileNew()), actionCollection);
     KStandardAction::quit(qApp, SLOT(closeAllWindows()), actionCollection);
     KStandardAction::preferences(this, SLOT(settingsConfigure()), actionCollection);
 
@@ -34,12 +33,6 @@ TestEigenWindow::TestEigenWindow()
 
 TestEigenWindow::~TestEigenWindow()
 {
-}
-
-void TestEigenWindow::fileNew()
-{
-    qCDebug(TESTEIGEN) << "TestEigenWindow::fileNew()";
-    (new TestEigenWindow)->show();
 }
 
 void TestEigenWindow::settingsConfigure()
