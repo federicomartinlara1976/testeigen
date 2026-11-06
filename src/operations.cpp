@@ -53,7 +53,7 @@ QString Operations::runLinearSystems() {
     Eigen::Vector3d b(1.0, 0.0, -2.0);
 
     out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
-    out += helper.section(QStringLiteral("B"), EigenManager::matrixToString(b));
+    out += helper.section(QStringLiteral("b"), EigenManager::matrixToString(b));
 
     // Resolución directa (LU con pivoteo parcial, RCOND estimado)
     Eigen::Vector3d x1 = A.lu().solve(b);
