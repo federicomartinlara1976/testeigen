@@ -31,13 +31,13 @@ int main(int argc, char **argv)
     KAboutData aboutData(QStringLiteral("testeigen"),
                          i18n("TestEigen"),
                          QStringLiteral("%{VERSION}"),
-                         i18n("A Simple Application written with KDE Frameworks"),
+                         i18n("%{DESCRIPTION}"),
                          KAboutLicense::GPL,
                          i18n("Copyright %{CURRENT_YEAR}, %{AUTHOR} <%{EMAIL}>"));
 
     aboutData.addAuthor(i18n("%{AUTHOR}"),i18n("Author"), QStringLiteral("%{EMAIL}"));
-    aboutData.setOrganizationDomain("example.org");
-    aboutData.setDesktopFileName(QStringLiteral("org.example.testeigen"));
+    aboutData.setOrganizationDomain("chronos.bounceme.net");
+    aboutData.setDesktopFileName(QStringLiteral("net.bounceme.chronos.testeigen"));
 
     KAboutData::setApplicationData(aboutData);
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("testeigen")));

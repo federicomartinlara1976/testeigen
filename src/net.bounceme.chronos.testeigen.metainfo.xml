@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="desktop-application">
-  <id>org.example.testeigen</id>
+  <id>net.bounceme.chronos.testeigen</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license> https://www.freedesktop.org/software/appstream/docs/chap-Metadata.html#tag-metadata_license </project_license>
   <name>TestEigen</name>
@@ -19,6 +19,6 @@
   <provides>
     <binary>testeigen</binary>
   </provides>
-  <launchable type="desktop-id">org.example.testeigen.desktop</launchable>
+  <launchable type="desktop-id">net.bounceme.chronos.testeigen.desktop</launchable>
   <project_group>KDE</project_group>
 </component>
