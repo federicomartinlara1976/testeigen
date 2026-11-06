@@ -5,6 +5,7 @@ target_sources(testeigen PRIVATE
     testeigenwindow.cpp
     testeigenview.cpp
     testeigenhelper.cpp
+    operations.cpp
     eigen.cpp
     testeigen.qrc
 )
