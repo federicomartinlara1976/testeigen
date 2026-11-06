@@ -16,22 +16,28 @@ TestEigenView::TestEigenView(QWidget *parent)
 {
     m_ui.setupUi(this);
 
+    // conectar ANTES de ejecutar las operaciones
+    connect(&operations, &Operations::diagnosticReady, this, &TestEigenView::emitDiagnostics);
+
     m_ui.textEdit_1->setPlainText(operations.runBasics());
     m_ui.textEdit_2->setPlainText(operations.runLinearSystems());
     m_ui.textEdit_3->setPlainText(operations.runEigenSolver());
     m_ui.textEdit_4->setPlainText(operations.runSvd());
     m_ui.textEdit_5->setPlainText(operations.runFactorizations());
+}
 
-    handleSettingsChanged();
+void TestEigenView::emitDiagnostics(const QString& message) {
+    m_diagnostics << message;         // acumula siempre
+    Q_EMIT diagnosticReady(message);   // reemite si alguien escucha
+}
+
+QString TestEigenView::accumulatedDiagnostics() const
+{
+    return m_diagnostics.join(u" · ");
 }
 
 TestEigenView::~TestEigenView()
 {
-}
-
-void TestEigenView::handleSettingsChanged()
-{
-    qCDebug(TESTEIGEN) << "TestEigenView::handleSettingsChanged()";
 }
 
 #include "moc_testeigenview.cpp"

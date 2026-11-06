@@ -3,18 +3,25 @@
 
 #include "testeigenhelper.hpp"
 
-class QString;
+#include <QObject>
+#include <QString>
 
-class Operations {
+class Operations : public QObject {
+    Q_OBJECT
 private:
     TestEigenHelper helper;
 
 public:
+    explicit Operations(QObject *parent = nullptr);
+
     QString runBasics();
     QString runLinearSystems();
     QString runEigenSolver();
     QString runSvd();
     QString runFactorizations();
+
+Q_SIGNALS:
+    void diagnosticReady(const QString &message);
 };
 
 #endif

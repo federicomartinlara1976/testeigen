@@ -1,10 +1,16 @@
 #include "operations.hpp"
 
 #include <QStringBuilder>
+#include <QTimer>
 
 #include "eigen.hpp"
 
 using namespace Qt::Literals::StringLiterals;
+
+Operations::Operations(QObject *parent)
+    : QObject(parent)
+{
+}
 
 QString Operations::runBasics() {
     QString out;
@@ -13,6 +19,10 @@ QString Operations::runBasics() {
     Eigen::Matrix2d A;
     A << 1.0, 2.0,
          3.0, 4.0;
+
+    Q_EMIT diagnosticReady(QStringLiteral("Básicos · A: %1")
+                             .arg(EigenManager::diagnose(A)));
+
     Eigen::Matrix2d B = Eigen::Matrix2d::Identity();
 
     out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
@@ -52,6 +62,10 @@ QString Operations::runLinearSystems() {
          2.0, 3.0, 6.0;
     Eigen::Vector3d b(1.0, 0.0, -2.0);
 
+    // el diagnóstico se emite mientras A existe
+    Q_EMIT diagnosticReady(QStringLiteral("Sistemas · A: %1")
+                             .arg(EigenManager::diagnose(A)));
+
     out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
     out += helper.section(QStringLiteral("b"), EigenManager::matrixToString(b));
 
@@ -78,9 +92,16 @@ QString Operations::runEigenSolver() {
          0.0, 3.0, 1.0,
          0.0, 1.0, 3.0;
 
+    Q_EMIT diagnosticReady(QStringLiteral("Autovalores · A: %1")
+                             .arg(EigenManager::diagnose(A)));
+
     out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
 
     Eigen::EigenSolver<Eigen::Matrix3d> es(A);
+    if (es.info() != Eigen::Success) {
+        Q_EMIT diagnosticReady(QStringLiteral("Autovalores · ⚠ EigenSolver falló"));
+    }
+
     out += helper.section(QStringLiteral("Autovalores (reales)"),
                    EigenManager::matrixToString(es.eigenvalues().real()));
     out += helper.section(QStringLiteral("Autovectores (parte real)"),
@@ -116,7 +137,6 @@ QString Operations::runSvd() {
     Eigen::Vector2d x = svd.solve(b);
     out += helper.section(QStringLiteral("Solución mínimos cuadrados"), EigenManager::matrixToString(x));
     out += QString(u"Residuo ‖A·x − b‖ = %1\n"_s).arg((A * x - b).norm());
-    return out;
 
     return out;
 }
@@ -129,6 +149,9 @@ QString Operations::runFactorizations(){
          1.0, 3.0, 1.0,
          0.0, 1.0, 2.0;
 
+    Q_EMIT diagnosticReady(QStringLiteral("Factorizaciones · A: %1")
+                             .arg(EigenManager::diagnose(A)));
+
     out += helper.section(QStringLiteral("A"), EigenManager::matrixToString(A));
 
     // Householder QR (para sistemas no cuadrados)
@@ -140,7 +163,7 @@ QString Operations::runFactorizations(){
     if (llt.info() == Eigen::Success) {
         out += helper.section(QStringLiteral("L (Cholesky LLT)"), EigenManager::matrixToString(llt.matrixL().toDenseMatrix()));
     } else {
-        out += QStringLiteral("LLT: matriz no definida positiva\n");
+        Q_EMIT diagnosticReady(QStringLiteral("⚠ LLT: no definida positiva"));
     }
 
     return out;

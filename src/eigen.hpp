@@ -3,6 +3,7 @@
 
 #include <QString>
 
+#include <QStringList>
 #include <Eigen/Dense>
 
 class EigenManager {
@@ -21,6 +22,8 @@ public:
         }
         return out;
     }
+
+    static QString diagnose(const Eigen::Ref<const Eigen::MatrixXd> &m);
 };
 
 #endif

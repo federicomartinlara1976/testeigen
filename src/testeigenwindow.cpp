@@ -14,6 +14,8 @@
 #include <KActionCollection>
 #include <KConfigDialog>
 
+#include <QStatusBar>
+
 
 TestEigenWindow::TestEigenWindow()
     : KXmlGuiWindow()
@@ -29,6 +31,14 @@ TestEigenWindow::TestEigenWindow()
     setupGUI();
 
     setWindowTitle(QStringLiteral("Eigen 3.4 Playground — Qt/KDE"));
+
+    connect(m_testeigenView, &TestEigenView::diagnosticReady, this, &TestEigenWindow::showDiagnostics);
+    // los emitidos durante la construcción de la vista:
+    statusBar()->showMessage(m_testeigenView->accumulatedDiagnostics());
+}
+
+void TestEigenWindow::showDiagnostics(const QString& message) {
+    statusBar()->showMessage(message);
 }
 
 TestEigenWindow::~TestEigenWindow()
@@ -51,7 +61,6 @@ void TestEigenWindow::settingsConfigure()
     QWidget *generalSettingsPage = new QWidget;
     m_settings.setupUi(generalSettingsPage);
     dialog->addPage(generalSettingsPage, i18nc("@title:tab", "General"), QStringLiteral("package_setting"));
-    connect(dialog, &KConfigDialog::settingsChanged, m_testeigenView, &TestEigenView::handleSettingsChanged);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }

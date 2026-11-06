@@ -29,20 +29,29 @@ public:
      */
     explicit TestEigenView(QWidget *parent);
 
+    QString accumulatedDiagnostics() const;
+
     /**
      * Default Destructor
      */
     ~TestEigenView() override;
 
 public Q_SLOTS:
-    void handleSettingsChanged();
+
+Q_SIGNALS:
+    void diagnosticReady(const QString &message);
 
 private:
     // this is the name of the root widget inside our Ui file
     // you can rename it in designer and then change it here
     Ui::TestEigenView m_ui;
 
+    QStringList m_diagnostics;
+
     Operations operations;
+
+private Q_SLOTS:
+    void emitDiagnostics(const QString& message);
 };
 
 #endif // TESTEIGENVIEW_H
