@@ -5,6 +5,7 @@ target_sources(testeigen PRIVATE
     testeigenwindow.cpp
     testeigenview.cpp
     testeigenhelper.cpp
+    eigen.cpp
     testeigen.qrc
 )
 
@@ -27,6 +28,7 @@ target_link_libraries(testeigen
     KF6::DBusAddons
     KF6::Crash
     Qt6::Widgets
+    Eigen3::Eigen
 )
 
 install(TARGETS testeigen ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

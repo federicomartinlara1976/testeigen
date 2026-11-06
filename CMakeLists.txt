@@ -32,6 +32,9 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
 )
 
+
+find_package(Eigen3 3.4 REQUIRED)
+
 add_subdirectory(doc)
 add_subdirectory(src)
 add_subdirectory(icons)
