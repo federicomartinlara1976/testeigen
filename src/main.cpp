@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     KAboutData aboutData(QStringLiteral("testeigen"),
                          i18n("TestEigen"),
                          i18n("%{VERSION}"),
-                         i18n("%{DESCRIPTION}"),
+                         i18n("Aplicación para probar funcionalidades de Eigen 3.4"),
                          KAboutLicense::GPL,
                          i18n("Copyright %{CURRENT_YEAR}, %{AUTHOR} <%{EMAIL}>"));
 
