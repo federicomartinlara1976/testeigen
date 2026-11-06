@@ -32,5 +32,5 @@ target_link_libraries(testeigen
 )
 
 install(TARGETS testeigen ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(PROGRAMS org.example.testeigen.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES org.example.testeigen.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(PROGRAMS net.bounceme.chronos.testeigen.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES net.bounceme.chronos.testeigen.metainfo.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
