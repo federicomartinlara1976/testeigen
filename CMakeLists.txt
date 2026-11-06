@@ -14,6 +14,7 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 
 include(ECMInstallIcons)
 include(ECMQtDeclareLoggingCategory)
+include(ECMPoQmTools)
 include(FeatureSummary)
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
@@ -38,6 +39,7 @@ find_package(Eigen3 3.4 REQUIRED)
 add_subdirectory(doc)
 add_subdirectory(src)
 add_subdirectory(icons)
+add_subdirectory(po)
 
 # Make it possible to use the po files fetched by the fetch-translations step
 ki18n_install(po)
