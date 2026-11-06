@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
     KAboutData aboutData(QStringLiteral("testeigen"),
                          i18n("TestEigen"),
-                         QStringLiteral("%{VERSION}"),
+                         i18n("%{VERSION}"),
                          i18n("%{DESCRIPTION}"),
                          KAboutLicense::GPL,
                          i18n("Copyright %{CURRENT_YEAR}, %{AUTHOR} <%{EMAIL}>"));
