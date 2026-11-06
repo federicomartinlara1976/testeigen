@@ -17,6 +17,11 @@ TestEigenView::TestEigenView(QWidget *parent)
     m_ui.setupUi(this);
 
     m_ui.textEdit_1->setPlainText(operations.runBasics());
+    m_ui.textEdit_2->setPlainText(operations.runLinearSystems());
+    m_ui.textEdit_3->setPlainText(operations.runEigenSolver());
+    m_ui.textEdit_4->setPlainText(operations.runSvd());
+    m_ui.textEdit_5->setPlainText(operations.runFactorizations());
+
     handleSettingsChanged();
 }
 
