@@ -34,7 +34,7 @@ public:
     /**
      * Default Destructor
      */
-    ~TestEigenView() override;
+    ~TestEigenView() = default;
 
 public Q_SLOTS:
 
@@ -52,6 +52,7 @@ private:
 
 private Q_SLOTS:
     void emitDiagnostics(const QString& message);
+    void loadResults();
 };
 
 #endif // TESTEIGENVIEW_H

@@ -18,26 +18,26 @@ QString EigenManager::diagnose(const Eigen::Ref<const Eigen::MatrixXd> &m)
         parts << QStringLiteral("finita");
     }
 
-    // 2. Simetría (útil para saber si aplica SelfAdjointEigenSolver/LLT)
+    // 2. Cuadrada — ANTES de cualquier operación que exija filas == columnas
+    if (m.rows() != m.cols()) {
+        parts << QStringLiteral("no cuadrada (%1×%2)")
+                     .arg(m.rows()).arg(m.cols());
+        return parts.join(u" · ");   // adiós: nada de simetría/det/rcond
+    }
+
+    // 3. Simetría (ahora es seguro: es cuadrada)
     const bool symmetric = m.transpose().isApprox(m, 1e-10);
     parts << (symmetric ? QStringLiteral("simétrica")
                         : QStringLiteral("asimétrica"));
 
-    // Solo tiene sentido el resto si la matriz es cuadrada
-    if (m.rows() != m.cols()) {
-        parts << QStringLiteral("no cuadrada (%1×%2)")
-                     .arg(m.rows()).arg(m.cols());
-        return parts.join(u" · ");
-    }
-
-    // 3. Determinante (con guardas de escala)
+    // 4. Determinante
     const double det = m.determinant();
     parts << QStringLiteral("det: %1").arg(det, 0, 'g', 4);
 
-    // 4. Condicionamiento vía LU (evita inverse())
+    // 5. Condicionamiento vía LU
     if (m.allFinite()) {
         Eigen::PartialPivLU<Eigen::MatrixXd> lu(m);
-        const double rcond = lu.rcond();   // ~1/κ(A)
+        const double rcond = lu.rcond();
         if (rcond > 0.0 && rcond < 1e-12) {
             parts << QStringLiteral("⚠ singular (rcond %1)")
                          .arg(rcond, 0, 'g', 2);
