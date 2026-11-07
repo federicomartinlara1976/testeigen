@@ -92,6 +92,9 @@ QString Operations::runEigenSolver() {
          0.0, 3.0, 1.0,
          0.0, 1.0, 3.0;
 
+    // Smoke test
+    // A(0, 0) = std::numeric_limits<double>::quiet_NaN();
+
     Q_EMIT diagnosticReady(QStringLiteral("Autovalores · A: %1")
                              .arg(EigenManager::diagnose(A)));
 
