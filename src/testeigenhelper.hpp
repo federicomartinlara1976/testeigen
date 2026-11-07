@@ -5,7 +5,7 @@ class QString;
 
 class TestEigenHelper {
 public:
-    QString section(const QString &title, const QString &body);
+    static QString section(const QString &title, const QString &body);
 };
 
 #endif

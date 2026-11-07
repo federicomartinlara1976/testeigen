@@ -8,9 +8,6 @@
 
 class Operations : public QObject {
     Q_OBJECT
-private:
-    TestEigenHelper helper;
-
 public:
     explicit Operations(QObject *parent = nullptr);
 
