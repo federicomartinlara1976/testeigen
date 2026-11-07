@@ -16,6 +16,7 @@ public:
     QString runEigenSolver();
     QString runSvd();
     QString runFactorizations();
+    QString runInteroperability();
 
 Q_SIGNALS:
     void diagnosticReady(const QString &message);

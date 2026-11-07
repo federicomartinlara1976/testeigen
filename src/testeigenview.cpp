@@ -31,6 +31,7 @@ void TestEigenView::loadResults()
     m_ui.textEdit_3->setPlainText(operations.runEigenSolver());
     m_ui.textEdit_4->setPlainText(operations.runSvd());
     m_ui.textEdit_5->setPlainText(operations.runFactorizations());
+    m_ui.textEdit_6->setPlainText(operations.runInteroperability());
 }
 
 void TestEigenView::emitDiagnostics(const QString& message) {

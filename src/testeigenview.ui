@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>893</width>
+    <width>1106</width>
     <height>649</height>
    </rect>
   </property>
@@ -119,6 +119,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_6">
+      <attribute name="icon">
+       <iconset theme="qtlogo"/>
+      </attribute>
+      <attribute name="title">
+       <string>Interoperabilidad Qt</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QTextEdit" name="textEdit_6"/>
        </item>
       </layout>
      </widget>
