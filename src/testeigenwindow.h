@@ -34,7 +34,7 @@ public:
     /**
      * Default Destructor
      */
-    ~TestEigenWindow() override;
+    ~TestEigenWindow() = default;
 
 private Q_SLOTS:
     /**

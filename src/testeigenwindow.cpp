@@ -42,10 +42,6 @@ void TestEigenWindow::showDiagnostics(const QString& message) {
     statusBar()->showMessage(message);
 }
 
-TestEigenWindow::~TestEigenWindow()
-{
-}
-
 void TestEigenWindow::settingsConfigure()
 {
     qCDebug(TESTEIGEN) << "TestEigenWindow::settingsConfigure()";
