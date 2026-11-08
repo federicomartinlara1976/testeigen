@@ -1,0 +1,1 @@
+ecm_install_po_files_as_qm(po)
