@@ -47,7 +47,7 @@ void TestEigenView::loadResults()
 
 void TestEigenView::emitDiagnostics(const QString& message) {
     m_diagnostics << message;         // acumula siempre
-    Q_EMIT diagnosticReady(message);   // reemite si alguien escucha
+    Q_EMIT diagnosticReady(accumulatedDiagnostics());   // reemite si alguien escucha
 }
 
 QString TestEigenView::accumulatedDiagnostics() const
