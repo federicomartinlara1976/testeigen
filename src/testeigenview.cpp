@@ -18,7 +18,7 @@ TestEigenView::TestEigenView(QWidget *parent)
     m_ui.setupUi(this);
 
     // conectar ANTES de ejecutar las operaciones
-    connect(&context, &OperationContext::diagnosticReady, this, &TestEigenView::emitDiagnostics);
+    connect(&m_context, &OperationContext::diagnosticReady, this, &TestEigenView::emitDiagnostics);
 
     // inicialización diferida: la ventana aparece primero
     QTimer::singleShot(0, this, &TestEigenView::loadResults);
@@ -26,23 +26,23 @@ TestEigenView::TestEigenView(QWidget *parent)
 
 void TestEigenView::loadResults()
 {
-    context.set_strategy(std::make_unique<BasicOperationStrategy>());
-    m_ui.textEdit_1->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
+    m_ui.textEdit_1->setPlainText(m_context.doOperation());
 
-    context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
-    m_ui.textEdit_2->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
+    m_ui.textEdit_2->setPlainText(m_context.doOperation());
 
-    context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
-    m_ui.textEdit_3->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
+    m_ui.textEdit_3->setPlainText(m_context.doOperation());
 
-    context.set_strategy(std::make_unique<SvdOperationStrategy>());
-    m_ui.textEdit_4->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<SvdOperationStrategy>());
+    m_ui.textEdit_4->setPlainText(m_context.doOperation());
 
-    context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
-    m_ui.textEdit_5->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
+    m_ui.textEdit_5->setPlainText(m_context.doOperation());
 
-    context.set_strategy(std::make_unique<InteroperabilityOperationStrategy>());
-    m_ui.textEdit_6->setPlainText(context.doOperation());
+    m_context.set_strategy(std::make_unique<InteroperabilityOperationStrategy>());
+    m_ui.textEdit_6->setPlainText(m_context.doOperation());
 }
 
 void TestEigenView::emitDiagnostics(const QString& message) {

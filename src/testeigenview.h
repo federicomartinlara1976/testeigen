@@ -46,7 +46,7 @@ private:
 
     QStringList m_diagnostics;
 
-    OperationContext context;
+    OperationContext m_context;
 
 private Q_SLOTS:
     void emitDiagnostics(const QString& message);
