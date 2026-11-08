@@ -8,7 +8,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QString SvdOperationStrategy::doOperation() {
+QString SvdOperationStrategy::doOperation(const OperationInput &input) {
+    Q_UNUSED(input)
+
     QString out;
 
     // Sistema sobredeterminado (4 ecuaciones, 2 incógnitas)

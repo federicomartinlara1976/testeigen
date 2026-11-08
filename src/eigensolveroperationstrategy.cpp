@@ -8,7 +8,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QString EigenSolverOperationStrategy::doOperation() {
+QString EigenSolverOperationStrategy::doOperation(const OperationInput &input) {
+    Q_UNUSED(input)
+
     QString out;
 
     Eigen::Matrix3d A;
