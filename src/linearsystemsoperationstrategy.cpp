@@ -9,15 +9,30 @@
 using namespace Qt::Literals::StringLiterals;
 
 QString LinearSystemsOperationStrategy::doOperation(const OperationInput &input) {
-    Q_UNUSED(input)
-
     QString out;
 
-    Eigen::Matrix3d A;
-    A << 4.0, 1.0, 2.0,
-         1.0, 5.0, 3.0,
-         2.0, 3.0, 6.0;
-    Eigen::Vector3d b(1.0, 0.0, -2.0);
+    const auto &A = input.A;
+    const auto &b = input.b;
+
+    //Eigen::Matrix3d A;
+    //A << 4.0, 1.0, 2.0,
+    //     1.0, 5.0, 3.0,
+    //     2.0, 3.0, 6.0;
+    //Eigen::Vector3d b(1.0, 0.0, -2.0);
+
+    // Robustez: validar ANTES de operar (lección de la fase anterior)
+    if (A.rows() != A.cols()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Sistemas · ⚠ A no es cuadrada"));
+        return QStringLiteral("Error: la matriz A debe ser cuadrada.\n");
+    }
+    if (A.rows() != b.size()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Sistemas · ⚠ dimensiones incompatibles"));
+        return QStringLiteral("Error: b debe tener tantas filas como A.\n");
+    }
+    if (!A.allFinite() || !b.allFinite()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Sistemas · ⚠ entrada con NaN/inf"));
+        return QStringLiteral("Error: la entrada contiene NaN o infinitos.\n");
+    }
 
     // el diagnóstico se emite mientras A existe
     Q_EMIT diagnosticReady(QStringLiteral("Sistemas · A: %1")
