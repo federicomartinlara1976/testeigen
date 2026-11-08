@@ -5,8 +5,15 @@ target_sources(testeigen PRIVATE
     testeigenwindow.cpp
     testeigenview.cpp
     testeigenhelper.cpp
-    operations.cpp
     eigen.cpp
+    operationcontext.cpp
+    operationstrategy.hpp # Si se definen clases con Q_OBJECT, hay que poner aquí las cabeceras para que compile el moc
+    basicoperationstrategy.cpp
+    linearsystemsoperationstrategy.cpp
+    eigensolveroperationstrategy.cpp
+    svdoperationstrategy.cpp
+    factorizationoperationstrategy.cpp
+    interoperabilityoperationstrategy.cpp
     testeigen.qrc
 )
 

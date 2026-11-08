@@ -9,7 +9,7 @@
 
 #include "ui_testeigenview.h"
 
-#include "operations.hpp"
+#include "operationcontext.hpp"
 
 
 /**
@@ -36,8 +36,6 @@ public:
      */
     ~TestEigenView() = default;
 
-public Q_SLOTS:
-
 Q_SIGNALS:
     void diagnosticReady(const QString &message);
 
@@ -48,7 +46,7 @@ private:
 
     QStringList m_diagnostics;
 
-    Operations operations;
+    OperationContext context;
 
 private Q_SLOTS:
     void emitDiagnostics(const QString& message);

@@ -38,6 +38,7 @@ TestEigenWindow::TestEigenWindow()
 }
 
 void TestEigenWindow::showDiagnostics(const QString& message) {
+    qCDebug(TESTEIGEN) << message;
     statusBar()->showMessage(message);
 }
 
@@ -64,5 +65,3 @@ void TestEigenWindow::settingsConfigure()
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
-
-#include "moc_testeigenwindow.cpp"

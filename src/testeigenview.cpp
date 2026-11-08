@@ -18,7 +18,7 @@ TestEigenView::TestEigenView(QWidget *parent)
     m_ui.setupUi(this);
 
     // conectar ANTES de ejecutar las operaciones
-    connect(&operations, &Operations::diagnosticReady, this, &TestEigenView::emitDiagnostics);
+    connect(&context, &OperationContext::diagnosticReady, this, &TestEigenView::emitDiagnostics);
 
     // inicialización diferida: la ventana aparece primero
     QTimer::singleShot(0, this, &TestEigenView::loadResults);
@@ -26,12 +26,23 @@ TestEigenView::TestEigenView(QWidget *parent)
 
 void TestEigenView::loadResults()
 {
-    m_ui.textEdit_1->setPlainText(operations.runBasics());
-    m_ui.textEdit_2->setPlainText(operations.runLinearSystems());
-    m_ui.textEdit_3->setPlainText(operations.runEigenSolver());
-    m_ui.textEdit_4->setPlainText(operations.runSvd());
-    m_ui.textEdit_5->setPlainText(operations.runFactorizations());
-    m_ui.textEdit_6->setPlainText(operations.runInteroperability());
+    context.set_strategy(std::make_unique<BasicOperationStrategy>());
+    m_ui.textEdit_1->setPlainText(context.doOperation());
+
+    context.set_strategy(std::make_unique<BasicOperationStrategy>());
+    m_ui.textEdit_2->setPlainText(context.doOperation());
+
+    context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
+    m_ui.textEdit_3->setPlainText(context.doOperation());
+
+    context.set_strategy(std::make_unique<SvdOperationStrategy>());
+    m_ui.textEdit_4->setPlainText(context.doOperation());
+
+    context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
+    m_ui.textEdit_5->setPlainText(context.doOperation());
+
+    context.set_strategy(std::make_unique<InteroperabilityOperationStrategy>());
+    m_ui.textEdit_6->setPlainText(context.doOperation());
 }
 
 void TestEigenView::emitDiagnostics(const QString& message) {
@@ -43,5 +54,3 @@ QString TestEigenView::accumulatedDiagnostics() const
 {
     return m_diagnostics.join(u" · ");
 }
-
-#include "moc_testeigenview.cpp"

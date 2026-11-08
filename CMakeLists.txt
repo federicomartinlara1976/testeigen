@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.16)
-set(CMAKE_BUILD_TYPE Debug)
 project(testeigen VERSION 1.0.0)
 
 set(QT_MIN_VERSION "6.5.0")
@@ -16,6 +15,9 @@ include(ECMInstallIcons)
 include(ECMQtDeclareLoggingCategory)
 include(ECMPoQmTools)
 include(FeatureSummary)
+
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Core

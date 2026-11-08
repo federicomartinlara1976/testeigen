@@ -1,0 +1,37 @@
+#include "operationstrategy.hpp"
+
+#include <QString>
+#include <QStringBuilder>
+
+#include "testeigenhelper.hpp"
+#include "eigen.hpp"
+
+using namespace Qt::Literals::StringLiterals;
+
+QString FactorizationOperationStrategy::doOperation() {
+    QString out;
+
+    Eigen::Matrix3d A;
+    A << 4.0, 1.0, 0.0,
+         1.0, 3.0, 1.0,
+         0.0, 1.0, 2.0;
+
+    Q_EMIT diagnosticReady(QStringLiteral("Factorizaciones · A: %1")
+                             .arg(EigenManager::diagnose(A)));
+
+    out += TestEigenHelper::section(QStringLiteral("A"), EigenManager::matrixToString(A));
+
+    // Householder QR (para sistemas no cuadrados)
+    Eigen::HouseholderQR<Eigen::Matrix3d> qr(A);
+    out += TestEigenHelper::section(QStringLiteral("Q (HouseholderQR)"), EigenManager::matrixToString(Eigen::Matrix3d(qr.householderQ())));
+
+    // Cholesky: válido solo si A es simétrica definida positiva
+    Eigen::LLT<Eigen::Matrix3d> llt(A);
+    if (llt.info() == Eigen::Success) {
+        out += TestEigenHelper::section(QStringLiteral("L (Cholesky LLT)"), EigenManager::matrixToString(llt.matrixL().toDenseMatrix()));
+    } else {
+        Q_EMIT diagnosticReady(QStringLiteral("⚠ LLT: no definida positiva"));
+    }
+
+    return out;
+}
