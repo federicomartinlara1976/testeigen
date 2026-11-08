@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QString>
 
-#include <memory>
-
 /**
  * The Strategy interface declares operations common to all supported versions
  * of some algorithm.
