@@ -29,7 +29,7 @@ void TestEigenView::loadResults()
     context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(context.doOperation());
 
-    context.set_strategy(std::make_unique<BasicOperationStrategy>());
+    context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
     m_ui.textEdit_2->setPlainText(context.doOperation());
 
     context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
