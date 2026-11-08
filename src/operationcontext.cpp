@@ -13,11 +13,11 @@ void OperationContext::set_strategy(std::unique_ptr<OperationStrategy> &&strateg
     connectStrategy();
 }
 
-QString OperationContext::doOperation() const {
+QString OperationContext::doOperation(const OperationInput &input) const {
     if (!m_strategy) {
         return QStringLiteral("sin estrategia asignada");
     }
-    return m_strategy->doOperation();
+    return m_strategy->doOperation(input);
 }
 
 void OperationContext::connectStrategy() {

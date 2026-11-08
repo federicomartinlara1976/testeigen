@@ -36,7 +36,7 @@ public:
      * The Context delegates some work to the Strategy object instead of
      * implementing +multiple versions of the algorithm on its own.
      */
-    QString doOperation() const;
+    QString doOperation(const OperationInput &input = {}) const;
 
 Q_SIGNALS:
     void diagnosticReady(const QString &message);
