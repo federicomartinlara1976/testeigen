@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="iconSize">
       <size>
@@ -94,7 +94,7 @@
           </layout>
          </item>
          <item>
-          <widget class="QPushButton" name="btnCalcularSvd">
+          <widget class="QPushButton" name="btnCalcular">
            <property name="text">
             <string>Calcular</string>
            </property>
@@ -193,9 +193,9 @@
           </layout>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="btnCalcularSvd">
            <property name="text">
-            <string>PushButton</string>
+            <string>Calcular</string>
            </property>
           </widget>
          </item>
