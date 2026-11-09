@@ -8,7 +8,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QString BasicOperationStrategy::doOperation() {
+QString BasicOperationStrategy::doOperation(const OperationInput &input) {
+    Q_UNUSED(input)
+
     QString out;
 
     // Aritmética de matrices de tamaño fijo (conocido en compilación)

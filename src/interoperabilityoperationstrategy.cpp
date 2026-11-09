@@ -12,7 +12,9 @@
 
 using namespace Qt::Literals::StringLiterals;
 
-QString InteroperabilityOperationStrategy::doOperation() {
+QString InteroperabilityOperationStrategy::doOperation(const OperationInput &input) {
+    Q_UNUSED(input)
+
     QString out;
 
     // ---------- 1. QMatrix4x4 → Eigen::Matrix4f ----------

@@ -5,5 +5,11 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name="testeigenrc"/>
   <group name="Preferences">
+    <entry name="matrixSize" type="Int">
+        <label>Default matrix size for interactive tabs</label>
+        <default>3</default>
+        <min>2</min>
+        <max>8</max>
+    </entry>
   </group>
 </kcfg>
