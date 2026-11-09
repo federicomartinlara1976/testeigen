@@ -9,6 +9,8 @@
 using namespace Qt::Literals::StringLiterals;
 
 QString LinearSystemsOperationStrategy::doOperation(const OperationInput &input) {
+    Q_UNUSED(input)
+
     QString out;
 
     const auto &A = input.A;
@@ -42,12 +44,12 @@ QString LinearSystemsOperationStrategy::doOperation(const OperationInput &input)
     out += TestEigenHelper::section(QStringLiteral("b"), EigenManager::matrixToString(b));
 
     // Resolución directa (LU con pivoteo parcial, RCOND estimado)
-    Eigen::Vector3d x1 = A.lu().solve(b);
+    Eigen::VectorXd x1 = A.lu().solve(b);
     out += TestEigenHelper::section(QStringLiteral("A.lu().solve(b)"), EigenManager::matrixToString(x1));
 
     // Descomposición explícita: reutilizable para muchos lado-derechos
-    Eigen::PartialPivLU<Eigen::Matrix3d> lu(A);
-    Eigen::Vector3d x2 = lu.solve(b);
+    Eigen::PartialPivLU<Eigen::MatrixXd> lu(A);
+    Eigen::VectorXd x2 = lu.solve(b);
     out += TestEigenHelper::section(QStringLiteral("PartialPivLU reutilizable"), EigenManager::matrixToString(x2));
 
     // Verificación de residuo

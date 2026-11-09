@@ -41,26 +41,31 @@ public:
 
 class LinearSystemsOperationStrategy : public OperationStrategy
 {
+public:
     QString doOperation(const OperationInput &input = {}) override;
 };
 
 class EigenSolverOperationStrategy : public OperationStrategy
 {
+public:
     QString doOperation(const OperationInput &input = {}) override;
 };
 
 class SvdOperationStrategy : public OperationStrategy
 {
+public:
     QString doOperation(const OperationInput &input = {}) override;
 };
 
 class FactorizationOperationStrategy : public OperationStrategy
 {
+public:
     QString doOperation(const OperationInput &input = {}) override;
 };
 
 class InteroperabilityOperationStrategy : public OperationStrategy
 {
+public:
     QString doOperation(const OperationInput &input = {}) override;
 };
 

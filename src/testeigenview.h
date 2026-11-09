@@ -31,6 +31,8 @@ public:
 
     QString accumulatedDiagnostics() const;
 
+    void applySettings();
+
     /**
      * Default Destructor
      */
@@ -51,6 +53,9 @@ private:
 private Q_SLOTS:
     void emitDiagnostics(const QString& message);
     void loadResults();
+    void initInteractiveTables();
+    void calculateLinearSystems();
+
 };
 
 #endif // TESTEIGENVIEW_H
