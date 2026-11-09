@@ -2,9 +2,8 @@
 #define __TESTEIGENHELPER_HPP__
 
 #include <Eigen/Dense>
-
-class QString;
-class QTableWidget;
+#include <QString>
+#include <QTableWidget>
 
 class TestEigenHelper {
 public:
@@ -17,6 +16,8 @@ public:
 
     // tabla de una columna: para el vector b
     static void vectorToTable(const Eigen::VectorXd &v, QTableWidget *table);
+
+    static void matrixToTable(const Eigen::MatrixXd &m, QTableWidget *table);
 };
 
 #endif

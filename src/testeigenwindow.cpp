@@ -59,5 +59,18 @@ void TestEigenWindow::settingsConfigure()
     m_settings.setupUi(generalSettingsPage);
     dialog->addPage(generalSettingsPage, i18nc("@title:tab", "General"), QStringLiteral("package_setting"));
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+
+    // al aceptar/aplicar el diálogo: notificar a la vista
+    connect(dialog, &KConfigDialog::settingsChanged, this, &TestEigenWindow::handleSettingsChanged);
+
     dialog->show();
 }
+
+void TestEigenWindow::handleSettingsChanged()
+{
+    m_testeigenView->applySettings();
+}
+
+
+
+

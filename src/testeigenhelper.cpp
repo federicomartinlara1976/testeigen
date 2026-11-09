@@ -37,8 +37,23 @@ bool TestEigenHelper::tableToMatrix(const QTableWidget *table, Eigen::MatrixXd &
 void TestEigenHelper::vectorToTable(const Eigen::VectorXd &v, QTableWidget *table) {
     table->setRowCount(static_cast<int>(v.size()));
     table->setColumnCount(1);
+
     for (int i = 0; i < v.size(); ++i) {
         auto *item = new QTableWidgetItem(QString::number(v(i)));
         table->setItem(i, 0, item);   // QTableWidget se apropia: sin fugas ✅
     }
 }
+
+void TestEigenHelper::matrixToTable(const Eigen::MatrixXd& m, QTableWidget* table)
+{
+    table->setRowCount(static_cast<int>(m.rows()));
+    table->setColumnCount(static_cast<int>(m.cols()));
+
+    for (int i = 0; i < m.rows(); ++i) {
+        for (int j = 0; j < m.cols(); ++j) {
+            auto *item = new QTableWidgetItem(QString::number(m(i, j)));
+            table->setItem(i, j, item);   // QTableWidget se apropia: sin fugas ✅
+        }
+    }
+}
+
