@@ -14,6 +14,10 @@ public:
                               Eigen::MatrixXd &out,
                               QString *error);
 
+    static bool tableToVector(const QTableWidget *table,
+                              Eigen::VectorXd &out,
+                              QString *error);
+
     // tabla de una columna: para el vector b
     static void vectorToTable(const Eigen::VectorXd &v, QTableWidget *table);
 

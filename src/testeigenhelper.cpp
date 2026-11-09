@@ -33,6 +33,27 @@ bool TestEigenHelper::tableToMatrix(const QTableWidget *table, Eigen::MatrixXd &
     return true;
 }
 
+// Helper de traducción: QTableWidget → Eigen (valida cada celda)
+bool TestEigenHelper::tableToVector(const QTableWidget *table, Eigen::VectorXd &out, QString *error)
+{
+    const int rows = table->rowCount();
+
+    out.resize(rows);
+
+    for (int i = 0; i < rows; ++i) {
+        bool ok = false;
+        const double value = table->item(i, 0) ? table->item(i, 0)->text().toDouble(&ok)
+                                                : 0.0;
+        if (!ok) {
+            *error = QStringLiteral("celda (%1) no numérica")
+                            .arg(i + 1);
+            return false;
+        }
+        out(i) = value;
+    }
+    return true;
+}
+
 // tabla de una columna: para el vector b
 void TestEigenHelper::vectorToTable(const Eigen::VectorXd &v, QTableWidget *table) {
     table->setRowCount(static_cast<int>(v.size()));

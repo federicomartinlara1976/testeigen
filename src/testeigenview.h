@@ -54,6 +54,7 @@ private Q_SLOTS:
     void emitDiagnostics(const QString& message);
     void loadResults();
     void initInteractiveTables();
+    void calculateLinearSystems();
 
 };
 

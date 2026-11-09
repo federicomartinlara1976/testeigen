@@ -12,6 +12,9 @@
 #include "testeigendebug.h"
 
 #include <QTimer>
+#include <QStringBuilder>
+
+using namespace Qt::Literals::StringLiterals;
 
 TestEigenView::TestEigenView(QWidget *parent)
     : QWidget(parent)
@@ -21,6 +24,8 @@ TestEigenView::TestEigenView(QWidget *parent)
     // conectar ANTES de ejecutar las operaciones
     connect(&m_context, &OperationContext::diagnosticReady, this, &TestEigenView::emitDiagnostics);
 
+    connect(m_ui.btnCalcular, &QPushButton::clicked, this, &TestEigenView::calculateLinearSystems);
+
     // inicialización diferida: la ventana aparece primero
     QTimer::singleShot(0, this, &TestEigenView::loadResults);
 }
@@ -29,9 +34,6 @@ void TestEigenView::loadResults()
 {
     m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(m_context.doOperation());
-
-    m_context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
-    m_ui.textEdit_2->setPlainText(m_context.doOperation());
 
     m_context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
     m_ui.textEdit_3->setPlainText(m_context.doOperation());
@@ -78,4 +80,23 @@ void TestEigenView::initInteractiveTables()
 void TestEigenView::applySettings()
 {
     initInteractiveTables();   // redimensiona tablas con el nuevo tamaño
+}
+
+void TestEigenView::calculateLinearSystems()
+{
+    QString error;
+    OperationInput input;
+
+    if (!TestEigenHelper::tableToMatrix(m_ui.tableWidget_A, input.A, &error)) {
+        m_ui.textEdit_2->setPlainText(u"Error en A: %1\n"_s.arg(error));
+        return;
+    }
+    if (!TestEigenHelper::tableToVector(m_ui.tableWidget_b, input.b, &error)) {
+        m_ui.textEdit_2->setPlainText(u"Error en b: %1\n"_s.arg(error));
+        return;
+    }
+
+    // el Context ya reenvía los diagnósticos a la barra de estado
+    LinearSystemsOperationStrategy strategy;
+    m_ui.textEdit_2->setPlainText(strategy.doOperation(input));
 }
