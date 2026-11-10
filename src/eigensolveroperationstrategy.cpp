@@ -9,14 +9,24 @@
 using namespace Qt::Literals::StringLiterals;
 
 QString EigenSolverOperationStrategy::doOperation(const OperationInput &input) {
-    Q_UNUSED(input)
-
     QString out;
 
-    Eigen::Matrix3d A;
-    A << 2.0, 0.0, 0.0,
-         0.0, 3.0, 1.0,
-         0.0, 1.0, 3.0;
+    //Eigen::Matrix3d A;
+    //A << 2.0, 0.0, 0.0,
+    //     0.0, 3.0, 1.0,
+    //     0.0, 1.0, 3.0;
+
+    const auto &A = input.A;
+
+    if (A.rows() != A.cols()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Autovalores · ⚠ A no es cuadrada"));
+        return QStringLiteral("Error: los autovalores solo se definen "
+                              "para matrices cuadradas.\n");
+    }
+    if (!A.allFinite()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Autovalores · ⚠ entrada con NaN/inf"));
+        return QStringLiteral("Error: la entrada contiene NaN o infinitos.\n");
+    }
 
     // Smoke test
     // A(0, 0) = std::numeric_limits<double>::quiet_NaN();

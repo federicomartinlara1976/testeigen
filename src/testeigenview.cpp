@@ -26,6 +26,7 @@ TestEigenView::TestEigenView(QWidget *parent)
 
     connect(m_ui.btnCalcular, &QPushButton::clicked, this, &TestEigenView::calculateLinearSystems);
     connect(m_ui.btnCalcularSvd, &QPushButton::clicked, this, &TestEigenView::calculateSvd);
+    connect(m_ui.btnCalcularEigenSolver, &QPushButton::clicked, this, &TestEigenView::calculateEigenSolver);
 
     // inicialización diferida: la ventana aparece primero
     QTimer::singleShot(0, this, &TestEigenView::loadInitialData);
@@ -35,9 +36,6 @@ void TestEigenView::loadInitialData()
 {
     m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(m_context.doOperation());
-
-    m_context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
-    m_ui.textEdit_3->setPlainText(m_context.doOperation());
 
     m_context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
     m_ui.textEdit_5->setPlainText(m_context.doOperation());
@@ -125,4 +123,19 @@ void TestEigenView::calculateSvd()
     // el Context ya reenvía los diagnósticos a la barra de estado
     m_context.set_strategy(std::make_unique<SvdOperationStrategy>());
     m_ui.textEdit_4->setPlainText(m_context.doOperation(input));
+}
+
+void TestEigenView::calculateEigenSolver()
+{
+    QString error;
+    OperationInput input;
+
+    if (!TestEigenHelper::tableToMatrix(m_ui.tableWidget_eigensolver_A, input.A, &error)) {
+        m_ui.textEdit_2->setPlainText(u"Error en A: %1\n"_s.arg(error));
+        return;
+    }
+
+    // el Context ya reenvía los diagnósticos a la barra de estado
+    m_context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
+    m_ui.textEdit_3->setPlainText(m_context.doOperation(input));
 }
