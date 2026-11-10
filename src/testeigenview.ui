@@ -178,7 +178,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QTableView" name="tableView_svd_A"/>
+            <widget class="QTableWidget" name="tableWidget_svd_A"/>
            </item>
            <item>
             <widget class="QLabel" name="label_2">
@@ -188,7 +188,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QTableView" name="tableView_svd_b"/>
+            <widget class="QTableWidget" name="tableWidget_svd_b"/>
            </item>
           </layout>
          </item>
