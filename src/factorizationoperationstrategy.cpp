@@ -9,14 +9,24 @@
 using namespace Qt::Literals::StringLiterals;
 
 QString FactorizationOperationStrategy::doOperation(const OperationInput &input) {
-    Q_UNUSED(input)
-
     QString out;
 
-    Eigen::Matrix3d A;
-    A << 4.0, 1.0, 0.0,
-         1.0, 3.0, 1.0,
-         0.0, 1.0, 2.0;
+    //Eigen::Matrix3d A;
+    //A << 4.0, 1.0, 0.0,
+    //     1.0, 3.0, 1.0,
+    //     0.0, 1.0, 2.0;
+
+    const auto &A = input.A;
+
+    if (A.rows() != A.cols()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Factorizaciones · ⚠ A no es cuadrada"));
+        return QStringLiteral("Error: las factorizaciones LU/Cholesky "
+                              "requieren una matriz cuadrada.\n");
+    }
+    if (!A.allFinite()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Factorizaciones · ⚠ entrada con NaN/inf"));
+        return QStringLiteral("Error: la entrada contiene NaN o infinitos.\n");
+    }
 
     Q_EMIT diagnosticReady(QStringLiteral("Factorizaciones · A: %1")
                              .arg(EigenManager::diagnose(A)));
