@@ -15,6 +15,9 @@
 #include <KConfigDialog>
 
 #include <QStatusBar>
+#include <QStringBuilder>
+
+using namespace Qt::Literals::StringLiterals;
 
 
 TestEigenWindow::TestEigenWindow()
@@ -62,6 +65,18 @@ void TestEigenWindow::settingsConfigure()
 
     // al aceptar/aplicar el diálogo: notificar a la vista
     connect(dialog, &KConfigDialog::settingsChanged, this, &TestEigenWindow::handleSettingsChanged);
+
+    auto *spinCols = generalSettingsPage->findChild<QSpinBox *>(u"kcfg_matrixCols"_s);
+    auto *checkSquare = generalSettingsPage->findChild<QCheckBox *>(u"kcfg_squareMatrix"_s);
+
+    if (spinCols && checkSquare) {
+        // estado inicial coherente con el valor guardado
+        spinCols->setEnabled(!checkSquare->isChecked());
+        // Queremos lo inverso: cuadrada activada → columnas deshabilitadas
+        connect(checkSquare, &QCheckBox::toggled, spinCols, [spinCols](bool square) {
+            spinCols->setEnabled(!square);
+        });
+    }
 
     dialog->show();
 }
