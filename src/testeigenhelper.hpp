@@ -22,6 +22,8 @@ public:
     static void vectorToTable(const Eigen::VectorXd &v, QTableWidget *table);
 
     static void matrixToTable(const Eigen::MatrixXd &m, QTableWidget *table);
+
+    static std::pair<int, int> effectiveDimensions();
 };
 
 #endif

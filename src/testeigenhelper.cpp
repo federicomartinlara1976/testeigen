@@ -4,6 +4,8 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
+#include "TestEigenSettings.h"
+
 using namespace Qt::Literals::StringLiterals;
 
 QString TestEigenHelper::section(const QString &title, const QString &body) {
@@ -76,5 +78,14 @@ void TestEigenHelper::matrixToTable(const Eigen::MatrixXd& m, QTableWidget* tabl
             table->setItem(i, j, item);   // QTableWidget se apropia: sin fugas ✅
         }
     }
+}
+
+std::pair<int, int> TestEigenHelper::effectiveDimensions()
+{
+    const int rows = TestEigenSettings::self()->matrixSize();
+    if (TestEigenSettings::self()->squareMatrix()) {
+        return {rows, rows};
+    }
+    return {rows, TestEigenSettings::self()->matrixCols()};
 }
 
