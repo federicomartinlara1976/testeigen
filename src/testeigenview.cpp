@@ -28,10 +28,10 @@ TestEigenView::TestEigenView(QWidget *parent)
     connect(m_ui.btnCalcularSvd, &QPushButton::clicked, this, &TestEigenView::calculateSvd);
 
     // inicialización diferida: la ventana aparece primero
-    QTimer::singleShot(0, this, &TestEigenView::loadResults);
+    QTimer::singleShot(0, this, &TestEigenView::loadInitialData);
 }
 
-void TestEigenView::loadResults()
+void TestEigenView::loadInitialData()
 {
     m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(m_context.doOperation());

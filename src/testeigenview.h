@@ -52,7 +52,7 @@ private:
 
 private Q_SLOTS:
     void emitDiagnostics(const QString& message);
-    void loadResults();
+    void loadInitialData();
     void initInteractiveTables();
     void calculateLinearSystems();
     void calculateSvd();
