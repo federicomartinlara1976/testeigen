@@ -3,4 +3,4 @@ File=TestEigenSettings.kcfg
 ClassName=TestEigenSettings
 Singleton=true
 # will create the necessary code for setting those variables
-Mutators=matrixSize
+Mutators=matrixSize,matrixCols,squareMatrix
