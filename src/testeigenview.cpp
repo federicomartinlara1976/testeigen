@@ -82,7 +82,6 @@ void TestEigenView::initInteractiveTables()
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_svd_b);
 }
 
-// testeigenview.cpp
 void TestEigenView::applySettings()
 {
     initInteractiveTables();   // redimensiona tablas con el nuevo tamaño
