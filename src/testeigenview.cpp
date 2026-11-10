@@ -105,6 +105,6 @@ void TestEigenView::calculateLinearSystems()
     }
 
     // el Context ya reenvía los diagnósticos a la barra de estado
-    LinearSystemsOperationStrategy strategy;
-    m_ui.textEdit_2->setPlainText(strategy.doOperation(input));
+    m_context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
+    m_ui.textEdit_2->setPlainText(m_context.doOperation(input));
 }
