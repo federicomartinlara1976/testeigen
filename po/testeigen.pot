@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-06 15:05+0100\n"
+"POT-Creation-Date: 2026-11-10 22:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,6 +57,42 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/settings.ui:17
+#, kde-format
+msgid "Filas"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/settings.ui:34
+#, kde-format
+msgid "Columnas"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_squareMatrix)
+#: src/settings.ui:51
+#, kde-format
+msgid "Es cuadrada"
+msgstr ""
+
+#. i18n: ectx: label, entry (matrixSize), group (Preferences)
+#: src/TestEigenSettings.kcfg:9
+#, kde-format
+msgid "Default matrix size for interactive tabs"
+msgstr ""
+
+#. i18n: ectx: label, entry (matrixCols), group (Preferences)
+#: src/TestEigenSettings.kcfg:15
+#, kde-format
+msgid "Default number of columns for interactive tabs"
+msgstr ""
+
+#. i18n: ectx: label, entry (squareMatrix), group (Preferences)
+#: src/TestEigenSettings.kcfg:21
+#, kde-format
+msgid "Use square matrices (columns follow rows)"
+msgstr ""
+
 #. i18n: ectx: ToolBar (mainToolBar)
 #: src/testeigenui.rc:12
 #, kde-format
@@ -64,36 +100,59 @@ msgid "Main Toolbar"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_1)
-#: src/testeigenview.ui:45
+#: src/testeigenview.ui:33
 #, kde-format
 msgid "1 · Básicos"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/testeigenview.ui:62
+#: src/testeigenview.ui:50
 #, kde-format
 msgid "2 · Sistemas lineales"
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/testeigenview.ui:87 src/testeigenview.ui:225
+#, kde-format
+msgid "="
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, btnCalcular)
+#. i18n: ectx: property (text), widget (QPushButton, btnCalcularEigenSolver)
+#. i18n: ectx: property (text), widget (QPushButton, btnCalcularSvd)
+#. i18n: ectx: property (text), widget (QPushButton, btnCalcularFactorization)
+#: src/testeigenview.ui:99 src/testeigenview.ui:155 src/testeigenview.ui:237
+#: src/testeigenview.ui:293
+#, kde-format
+msgid "Calcular"
+msgstr ""
+
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/testeigenview.ui:79
+#: src/testeigenview.ui:132
 #, kde-format
 msgid "3 · Autovalores"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/testeigenview.ui:96
+#: src/testeigenview.ui:188
 #, kde-format
 msgid "4 · SVD / mínimos cuadrados"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/testeigenview.ui:113
+#: src/testeigenview.ui:270
 #, kde-format
 msgid "5 · QR y Cholesky"
 msgstr ""
 
-#: src/testeigenwindow.cpp:53
+#. i18n: ectx: attribute (title), widget (QWidget, tab_6)
+#: src/testeigenview.ui:326
+#, kde-format
+msgid "Interoperabilidad Qt"
+msgstr ""
+
+#: src/testeigenwindow.cpp:63
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
