@@ -35,7 +35,7 @@ msgstr ""
 #: src/main.cpp:33
 #, kde-format
 msgid "%{VERSION}"
-msgstr "1.0.1"
+msgstr "1.0.2"
 
 #: src/main.cpp:34
 #, kde-format
