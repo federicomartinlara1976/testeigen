@@ -51,10 +51,11 @@ private:
     OperationContext m_context;
 
 private Q_SLOTS:
+    void loadInitialData();
     void emitDiagnostics(const QString& message);
-    void loadResults();
     void initInteractiveTables();
     void calculateLinearSystems();
+    void calculateSvd();
 
 };
 

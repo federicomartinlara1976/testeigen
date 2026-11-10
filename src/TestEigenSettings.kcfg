@@ -11,5 +11,15 @@
         <min>2</min>
         <max>8</max>
     </entry>
+    <entry name="matrixCols" type="Int">
+        <label>Default number of columns for interactive tabs</label>
+        <default>3</default>
+        <min>2</min>
+        <max>8</max>
+    </entry>
+    <entry name="squareMatrix" type="Bool">
+        <label>Use square matrices (columns follow rows)</label>
+        <default>true</default>
+    </entry>
   </group>
 </kcfg>
