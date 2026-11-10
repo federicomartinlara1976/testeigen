@@ -56,6 +56,8 @@ private Q_SLOTS:
     void initInteractiveTables();
     void calculateLinearSystems();
     void calculateSvd();
+    void calculateEigenSolver();
+    void calculateFactorization();
 
 };
 
