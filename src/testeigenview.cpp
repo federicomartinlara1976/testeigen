@@ -60,21 +60,21 @@ QString TestEigenView::accumulatedDiagnostics() const
 
 void TestEigenView::initInteractiveTables()
 {
-    const int size = TestEigenSettings::self()->matrixSize();
+    const auto [rows, cols] = TestEigenHelper::effectiveDimensions();
 
-    m_ui.tableWidget_A->setRowCount(size);
-    m_ui.tableWidget_A->setColumnCount(size);
-    m_ui.tableWidget_b->setRowCount(size);
+    m_ui.tableWidget_A->setRowCount(rows);
+    m_ui.tableWidget_A->setColumnCount(cols);
+    m_ui.tableWidget_b->setRowCount(rows);
     m_ui.tableWidget_b->setColumnCount(1);
 
-    m_ui.tableWidget_svd_A->setRowCount(size);
-    m_ui.tableWidget_svd_A->setColumnCount(size);
-    m_ui.tableWidget_svd_b->setRowCount(size);
+    m_ui.tableWidget_svd_A->setRowCount(rows);
+    m_ui.tableWidget_svd_A->setColumnCount(cols);
+    m_ui.tableWidget_svd_b->setRowCount(rows);
     m_ui.tableWidget_svd_b->setColumnCount(1);
 
     // valores por defecto: identidad para A, unos para b
-    const Eigen::MatrixXd A = Eigen::MatrixXd::Identity(size, size);
-    const Eigen::VectorXd b = Eigen::VectorXd::Constant(size, 1.0);
+    const Eigen::MatrixXd A = Eigen::MatrixXd::Identity(rows, cols);
+    const Eigen::VectorXd b = Eigen::VectorXd::Constant(rows, 1.0);
 
     TestEigenHelper::matrixToTable(A, m_ui.tableWidget_A);
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_b);
