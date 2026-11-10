@@ -25,21 +25,19 @@ TestEigenView::TestEigenView(QWidget *parent)
     connect(&m_context, &OperationContext::diagnosticReady, this, &TestEigenView::emitDiagnostics);
 
     connect(m_ui.btnCalcular, &QPushButton::clicked, this, &TestEigenView::calculateLinearSystems);
+    connect(m_ui.btnCalcularSvd, &QPushButton::clicked, this, &TestEigenView::calculateSvd);
 
     // inicialización diferida: la ventana aparece primero
-    QTimer::singleShot(0, this, &TestEigenView::loadResults);
+    QTimer::singleShot(0, this, &TestEigenView::loadInitialData);
 }
 
-void TestEigenView::loadResults()
+void TestEigenView::loadInitialData()
 {
     m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(m_context.doOperation());
 
     m_context.set_strategy(std::make_unique<EigenSolverOperationStrategy>());
     m_ui.textEdit_3->setPlainText(m_context.doOperation());
-
-    m_context.set_strategy(std::make_unique<SvdOperationStrategy>());
-    m_ui.textEdit_4->setPlainText(m_context.doOperation());
 
     m_context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
     m_ui.textEdit_5->setPlainText(m_context.doOperation());
@@ -62,21 +60,28 @@ QString TestEigenView::accumulatedDiagnostics() const
 
 void TestEigenView::initInteractiveTables()
 {
-    const int size = TestEigenSettings::self()->matrixSize();
+    const auto [rows, cols] = TestEigenHelper::effectiveDimensions();
 
-    m_ui.tableWidget_A->setRowCount(size);
-    m_ui.tableWidget_A->setColumnCount(size);
-    m_ui.tableWidget_b->setRowCount(size);
+    m_ui.tableWidget_A->setRowCount(rows);
+    m_ui.tableWidget_A->setColumnCount(cols);
+    m_ui.tableWidget_b->setRowCount(rows);
     m_ui.tableWidget_b->setColumnCount(1);
 
+    m_ui.tableWidget_svd_A->setRowCount(rows);
+    m_ui.tableWidget_svd_A->setColumnCount(cols);
+    m_ui.tableWidget_svd_b->setRowCount(rows);
+    m_ui.tableWidget_svd_b->setColumnCount(1);
+
     // valores por defecto: identidad para A, unos para b
-    const Eigen::MatrixXd A = Eigen::MatrixXd::Identity(size, size);
-    const Eigen::VectorXd b = Eigen::VectorXd::Constant(size, 1.0);
+    const Eigen::MatrixXd A = Eigen::MatrixXd::Identity(rows, cols);
+    const Eigen::VectorXd b = Eigen::VectorXd::Constant(rows, 1.0);
+
     TestEigenHelper::matrixToTable(A, m_ui.tableWidget_A);
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_b);
+    TestEigenHelper::matrixToTable(A, m_ui.tableWidget_svd_A);
+    TestEigenHelper::vectorToTable(b, m_ui.tableWidget_svd_b);
 }
 
-// testeigenview.cpp
 void TestEigenView::applySettings()
 {
     initInteractiveTables();   // redimensiona tablas con el nuevo tamaño
@@ -97,6 +102,25 @@ void TestEigenView::calculateLinearSystems()
     }
 
     // el Context ya reenvía los diagnósticos a la barra de estado
-    LinearSystemsOperationStrategy strategy;
-    m_ui.textEdit_2->setPlainText(strategy.doOperation(input));
+    m_context.set_strategy(std::make_unique<LinearSystemsOperationStrategy>());
+    m_ui.textEdit_2->setPlainText(m_context.doOperation(input));
+}
+
+void TestEigenView::calculateSvd()
+{
+    QString error;
+    OperationInput input;
+
+    if (!TestEigenHelper::tableToMatrix(m_ui.tableWidget_svd_A, input.A, &error)) {
+        m_ui.textEdit_4->setPlainText(u"Error en A: %1\n"_s.arg(error));
+        return;
+    }
+    if (!TestEigenHelper::tableToVector(m_ui.tableWidget_svd_b, input.b, &error)) {
+        m_ui.textEdit_4->setPlainText(u"Error en b: %1\n"_s.arg(error));
+        return;
+    }
+
+    // el Context ya reenvía los diagnósticos a la barra de estado
+    m_context.set_strategy(std::make_unique<SvdOperationStrategy>());
+    m_ui.textEdit_4->setPlainText(m_context.doOperation(input));
 }
