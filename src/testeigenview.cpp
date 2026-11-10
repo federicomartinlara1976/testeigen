@@ -77,8 +77,10 @@ void TestEigenView::initInteractiveTables()
     const Eigen::VectorXd b = Eigen::VectorXd::Constant(rows, 1.0);
 
     TestEigenHelper::matrixToTable(A, m_ui.tableWidget_A);
-    TestEigenHelper::vectorToTable(b, m_ui.tableWidget_b);
     TestEigenHelper::matrixToTable(A, m_ui.tableWidget_svd_A);
+    TestEigenHelper::matrixToTable(A, m_ui.tableWidget_eigensolver_A);
+
+    TestEigenHelper::vectorToTable(b, m_ui.tableWidget_b);
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_svd_b);
 }
 
