@@ -28,6 +28,7 @@ TestEigenView::TestEigenView(QWidget *parent)
     connect(m_ui.btnCalcularSvd, &QPushButton::clicked, this, &TestEigenView::calculateSvd);
     connect(m_ui.btnCalcularEigenSolver, &QPushButton::clicked, this, &TestEigenView::calculateEigenSolver);
     connect(m_ui.btnCalcularFactorization, &QPushButton::clicked, this, &TestEigenView::calculateFactorization);
+    connect(m_ui.btnCalcularInteroperabilidad, &QPushButton::clicked, this, &TestEigenView::calculateInteroperability);
 
     // inicialización diferida: la ventana aparece primero
     QTimer::singleShot(0, this, &TestEigenView::loadInitialData);
@@ -37,9 +38,6 @@ void TestEigenView::loadInitialData()
 {
     m_context.set_strategy(std::make_unique<BasicOperationStrategy>());
     m_ui.textEdit_1->setPlainText(m_context.doOperation());
-
-    m_context.set_strategy(std::make_unique<InteroperabilityOperationStrategy>());
-    m_ui.textEdit_6->setPlainText(m_context.doOperation());
 
     initInteractiveTables();
 }
@@ -79,6 +77,15 @@ void TestEigenView::initInteractiveTables()
 
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_b);
     TestEigenHelper::vectorToTable(b, m_ui.tableWidget_svd_b);
+
+    Eigen::MatrixXd T = Eigen::MatrixXd::Identity(4, 4);
+    T(0, 0) =  std::sqrt(0.5);  T(0, 1) = -std::sqrt(0.5);   // rotación 45° Z
+    T(1, 0) =  std::sqrt(0.5);  T(1, 1) =  std::sqrt(0.5);
+    TestEigenHelper::matrixToTable(T, m_ui.tableWidget_interop_transform);
+
+    Eigen::MatrixXd p(3, 1);
+    p << 1.0, 2.0, 3.0;
+    TestEigenHelper::vectorToTable(p, m_ui.tableWidget_interop_point);
 }
 
 void TestEigenView::applySettings()
@@ -152,4 +159,23 @@ void TestEigenView::calculateFactorization()
     // el Context ya reenvía los diagnósticos a la barra de estado
     m_context.set_strategy(std::make_unique<FactorizationOperationStrategy>());
     m_ui.textEdit_5->setPlainText(m_context.doOperation(input));
+}
+
+void TestEigenView::calculateInteroperability()
+{
+    QString error;
+    OperationInput input;
+    if (!TestEigenHelper::tableToMatrix(m_ui.tableWidget_interop_transform,
+                                        input.transform, &error)) {
+        m_ui.textEdit_6->setPlainText(u"Error en la transformación: %1\n"_s.arg(error));
+        return;
+    }
+    if (!TestEigenHelper::tableToMatrix(m_ui.tableWidget_interop_point,
+                                        input.point, &error)) {
+        m_ui.textEdit_6->setPlainText(u"Error en el punto: %1\n"_s.arg(error));
+        return;
+    }
+
+    m_context.set_strategy(std::make_unique<InteroperabilityOperationStrategy>());
+    m_ui.textEdit_6->setPlainText(m_context.doOperation(input));
 }
