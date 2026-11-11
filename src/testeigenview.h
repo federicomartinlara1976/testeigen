@@ -58,6 +58,7 @@ private Q_SLOTS:
     void calculateSvd();
     void calculateEigenSolver();
     void calculateFactorization();
+    void calculateInteroperability();
 
 };
 
