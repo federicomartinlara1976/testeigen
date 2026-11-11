@@ -35,7 +35,7 @@ msgstr ""
 #: src/main.cpp:33
 #, kde-format
 msgid "%{VERSION}"
-msgstr "1.0.3"
+msgstr "1.0.4"
 
 #: src/main.cpp:34
 #, kde-format
@@ -45,8 +45,7 @@ msgstr "Aplicación para probar funcionalidades de Eigen 3.4"
 #: src/main.cpp:36
 #, kde-format
 msgid "Copyright %{CURRENT_YEAR}, %{AUTHOR} <%{EMAIL}>"
-msgstr ""
-"Copyright 2026, Federico Martín Lara <federicomartinlara1976@gmail.com>"
+msgstr "Copyright 2026, Federico Martín Lara <federicomartinlara1976@gmail.com>"
 
 #: src/main.cpp:38
 #, kde-format
