@@ -9,6 +9,8 @@
 struct OperationInput {
     Eigen::MatrixXd A;   // matriz principal
     Eigen::VectorXd b;   // lado derecho (solo sistemas/SVD)
+    Eigen::MatrixXd transform;  // opcional: transformación 4×4 (interop)
+    Eigen::MatrixXd point;      // opcional: punto 3×1 (interop)
 };
 
 /**

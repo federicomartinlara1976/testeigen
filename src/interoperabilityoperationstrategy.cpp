@@ -6,6 +6,7 @@
 #include <QMatrix4x4>     // QtGui
 #include <QQuaternion>    // QtGui
 #include <QVector3D>     // QtGui
+#include <cmath>
 
 #include "testeigenhelper.hpp"
 #include "eigen.hpp"
@@ -13,75 +14,75 @@
 using namespace Qt::Literals::StringLiterals;
 
 QString InteroperabilityOperationStrategy::doOperation(const OperationInput &input) {
-    Q_UNUSED(input)
-
     QString out;
 
-    // ---------- 1. QMatrix4x4 → Eigen::Matrix4f ----------
-    // Map con RowMajor: interpreta los 16 floats internos de Qt
-    // en su orden real. Sin copia: solo una vista.
-    QMatrix4x4 qtRotation;
-    qtRotation.rotate(45.0f, 0.0f, 0.0f, 1.0f);   // rotación de 45° en Z
+    // Validación: transformación 4×4 y punto 3×1
+    if (input.transform.rows() != 4 || input.transform.cols() != 4) {
+        Q_EMIT diagnosticReady(QStringLiteral("Interop · ⚠ la transformación debe ser 4×4"));
+        return QStringLiteral("Error: la transformación debe ser una matriz 4×4.\n");
+    }
+    if (input.point.size() != 3) {
+        Q_EMIT diagnosticReady(QStringLiteral("Interop · ⚠ el punto debe ser 3×1"));
+        return QStringLiteral("Error: el punto debe tener 3 componentes.\n");
+    }
+    if (!input.transform.allFinite() || !input.point.allFinite()) {
+        Q_EMIT diagnosticReady(QStringLiteral("Interop · ⚠ entrada con NaN/inf"));
+        return QStringLiteral("Error: la entrada contiene NaN o infinitos.\n");
+    }
 
-    const Eigen::Map<const Eigen::Matrix4f, Eigen::RowMajor> view(qtRotation.constData());
-    const Eigen::Matrix4f eRotation = view;       // copia materializada
+    // ---------- 1. Input (double) → float: la decisión de precisión ----------
+    // En gráficos la GPU es float: convertimos al final, como acordamos.
+    const Eigen::Matrix4f eTransform = input.transform.cast<float>();
+    const Eigen::Vector3f ePoint(input.point(0), input.point(1), input.point(2));
 
-    out += TestEigenHelper::section(QStringLiteral("QMatrix4x4 (rotación 45° Z)"),
-                          EigenManager::matrixToString(eRotation));
+    // ---------- 2. Eigen → Qt: RowMajor para que los bytes coincidan ----------
+    const Eigen::Matrix<float, 4, 4, Eigen::RowMajor> eRowMajor = eTransform;
+    const QMatrix4x4 qtTransform(eRowMajor.data());   // constructor espera fila-major
 
-    // ---------- 2. QVector3D → Eigen::Vector3f ----------
-    const QVector3D qtPoint(1.0f, 2.0f, 3.0f);
-    const Eigen::Vector3f ePoint(qtPoint.x(), qtPoint.y(), qtPoint.z());
-
-    // Transformar el punto con Eigen:
-    // homogeneous() añade la w=1 para multiplicar por la Matrix4f
+    // ---------- 3. El mismo punto, transformado por ambos ----------
     const Eigen::Vector3f eTransformed =
-        (eRotation * ePoint.homogeneous()).hnormalized();
+        (eTransform * ePoint.homogeneous()).hnormalized();   // vía Eigen
+    const QVector3D qtPoint(ePoint.x(), ePoint.y(), ePoint.z());
+    const QVector3D qtTransformed = qtTransform.map(qtPoint); // vía Qt (map, no *)
 
-    // ---------- 3. Eigen::Matrix4f → QMatrix4x4 ----------
-    // El constructor de QMatrix4x4 desde const float* espera fila-major:
-    // usa almacenamiento RowMajor en Eigen para que los bytes coincidan.
-    Eigen::Matrix<float, 4, 4, Eigen::RowMajor> eTranslation =
-        Eigen::Matrix<float, 4, 4, Eigen::RowMajor>::Identity();
-    eTranslation(0, 3) = 5.0f;   // traslación X
-    eTranslation(1, 3) = -2.0f;  // traslación Y
+    // ---------- 4. Self-test: comparar el efecto, no la representación ----------
+    const bool agree =
+        qFuzzyCompare(qtTransformed.x(), eTransformed.x())
+        && qFuzzyCompare(qtTransformed.y(), eTransformed.y())
+        && qFuzzyCompare(qtTransformed.z(), eTransformed.z());
 
-    const QMatrix4x4 qtTranslation(eTranslation.data());
-
-    // ---------- 4. Self-test: Qt y Eigen deben dar lo mismo ----------
-    const QVector3D qtTransformedQt = qtRotation.map(qtPoint);   // vía Qt
-    const QVector3D qtTransformedEigen(eTransformed.x(), eTransformed.y(),
-                                       eTransformed.z());              // vía Eigen
-
-    const bool agree = qFuzzyCompare(qtTransformedQt.distanceToPoint(qtTransformedEigen), 0.0f);
-
+    out += TestEigenHelper::section(QStringLiteral("Transformación (del usuario)"),
+                                    EigenManager::matrixToString(input.transform));
     out += TestEigenHelper::section(QStringLiteral("Punto transformado (Eigen)"),
-                          EigenManager::matrixToString(eTransformed));
+                                    EigenManager::matrixToString(eTransformed));
+    out += QString(u"Punto transformado (Qt): (%1, %2, %3)\n"_s)
+               .arg(qtTransformed.x()).arg(qtTransformed.y()).arg(qtTransformed.z());
     out += QString(u"Verificación Qt↔Eigen: %1\n"_s)
                .arg(agree ? u"coinciden ✓"_s : u"⚠ NO coinciden"_s);
 
-    Q_EMIT diagnosticReady(QStringLiteral("Interop · rotación 45°Z, %1")
-                              .arg(agree ? QStringLiteral("Qt y Eigen de acuerdo")
-                                         : QStringLiteral("⚠ discrepancia Qt/Eigen")));
+    Q_EMIT diagnosticReady(QStringLiteral("Interop · punto (%1, %2, %3) → %4")
+                              .arg(eTransformed.x()).arg(eTransformed.y())
+                              .arg(eTransformed.z())
+                              .arg(agree ? u"Qt y Eigen de acuerdo"_s
+                                         : u"⚠ discrepancia Qt/Eigen"_s));
 
-    // ---------- 5. QQuaternion ↔ Eigen::Quaternionf ----------
+    // ---------- 5. El self-test del quaternion queda fijo (demo) ----------
+    // (su input natural sería otro: eje + ángulo; lo dejamos como demo interna)
     const QQuaternion qtQuat = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, 90.0f);
-    // constructor Eigen: (w, x, y, z); Qt: x,y,z + scalar aparte
     const Eigen::Quaternionf eQuat(qtQuat.scalar(),
                                    qtQuat.x(), qtQuat.y(), qtQuat.z());
-
-    // Self-test: ambos quaternions deben rotar igual el mismo vector
     const QVector3D qtRotated = qtQuat.rotatedVector(QVector3D(1.0f, 0.0f, 0.0f));
     const Eigen::Vector3f eRotated = eQuat * Eigen::Vector3f(1.0f, 0.0f, 0.0f);
+    // Comparación absoluta: qFuzzyCompare (relativa) falla cerca de cero,
+    // y rotar (1,0,0) 90° en Y produce componentes ≈ 0
+    const auto closeEnough = [](float a, float b) {
+        return std::abs(a - b) < 1e-5f;
+    };
+    const bool quatAgree = closeEnough(qtRotated.x(), eRotated.x())
+                           && closeEnough(qtRotated.y(), eRotated.y())
+                           && closeEnough(qtRotated.z(), eRotated.z());
 
-    const bool quatAgree =
-        qFuzzyCompare(qtRotated.x(), eRotated.x())
-        && qFuzzyCompare(qtRotated.y(), eRotated.y())
-        && qFuzzyCompare(qtRotated.z(), eRotated.z());
-
-    out += QString(u"Rotación 90°Y de (1,0,0): Qt(%1, %2, %3) vs Eigen(%4, %5, %6) → %7\n"_s)
-               .arg(qtRotated.x()).arg(qtRotated.y()).arg(qtRotated.z())
-               .arg(eRotated.x()).arg(eRotated.y()).arg(eRotated.z())
+    out += QString(u"Self-test quaternion (demo): %1\n"_s)
                .arg(quatAgree ? u"coinciden ✓"_s : u"⚠ NO coinciden"_s);
 
     return out;
