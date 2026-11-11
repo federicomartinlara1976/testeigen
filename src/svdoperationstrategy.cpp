@@ -50,7 +50,7 @@ QString SvdOperationStrategy::doOperation(const OperationInput &input) {
                    EigenManager::matrixToString(svd.singularValues()));
 
     // Mínimos cuadrados: x minimiza ‖A·x − b‖
-    Eigen::Vector2d x = svd.solve(b);
+    Eigen::VectorXd x = svd.solve(b);
     out += TestEigenHelper::section(QStringLiteral("Solución mínimos cuadrados"), EigenManager::matrixToString(x));
     out += QString(u"Residuo ‖A·x − b‖ = %1\n"_s).arg((A * x - b).norm());
 
