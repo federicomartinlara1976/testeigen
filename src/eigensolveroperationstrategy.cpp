@@ -37,7 +37,7 @@ QString EigenSolverOperationStrategy::doOperation(const OperationInput &input) {
     out += TestEigenHelper::section(QStringLiteral("A"), EigenManager::matrixToString(A));
 
     // 1. EigenSolver general (admite autovalores complejos)
-    Eigen::EigenSolver<Eigen::Matrix3d> es(A);
+    Eigen::EigenSolver<Eigen::MatrixXd> es(A);
     if (es.info() == Eigen::Success) {
         out += TestEigenHelper::section(QStringLiteral("Autovalores (reales)"),
                               EigenManager::matrixToString(es.eigenvalues().real()));
@@ -49,7 +49,7 @@ QString EigenSolverOperationStrategy::doOperation(const OperationInput &input) {
     }
 
     // 2. Para matrices simétricas: SelfAdjointEigenSolver (más rápido y estable)
-    Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> saes(A);
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> saes(A);
     if (saes.info() == Eigen::Success) {
         out += TestEigenHelper::section(QStringLiteral("SelfAdjointEigenSolver: valores"),
                               EigenManager::matrixToString(saes.eigenvalues()));

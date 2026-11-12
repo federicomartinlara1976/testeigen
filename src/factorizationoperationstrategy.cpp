@@ -34,11 +34,11 @@ QString FactorizationOperationStrategy::doOperation(const OperationInput &input)
     out += TestEigenHelper::section(QStringLiteral("A"), EigenManager::matrixToString(A));
 
     // Householder QR (para sistemas no cuadrados)
-    Eigen::HouseholderQR<Eigen::Matrix3d> qr(A);
-    out += TestEigenHelper::section(QStringLiteral("Q (HouseholderQR)"), EigenManager::matrixToString(Eigen::Matrix3d(qr.householderQ())));
+    Eigen::HouseholderQR<Eigen::MatrixXd> qr(A);
+    out += TestEigenHelper::section(QStringLiteral("Q (HouseholderQR)"), EigenManager::matrixToString(Eigen::MatrixXd(qr.householderQ())));
 
     // Cholesky: válido solo si A es simétrica definida positiva
-    Eigen::LLT<Eigen::Matrix3d> llt(A);
+    Eigen::LLT<Eigen::MatrixXd> llt(A);
     if (llt.info() == Eigen::Success) {
         out += TestEigenHelper::section(QStringLiteral("L (Cholesky LLT)"), EigenManager::matrixToString(llt.matrixL().toDenseMatrix()));
     } else {
